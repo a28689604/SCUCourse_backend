@@ -22,9 +22,9 @@ mongoose
   .then(() => console.log('DB connection successful!'));
 
 // READ JSON FILE
-const courses = JSON.parse(
-  fs.readFileSync(`${__dirname}/courses.json`, 'utf-8')
-);
+// const courses = JSON.parse(
+//   fs.readFileSync(`${__dirname}/courses.json`, 'utf-8')
+// );
 const teachers = JSON.parse(
   fs.readFileSync(`${__dirname}/teachers.json`, 'utf-8')
 );
@@ -36,13 +36,14 @@ const teachers = JSON.parse(
 // IMPORT DATA INTO DB
 const importData = async () => {
   try {
-    await Course.create(courses);
+    // await Course.insertMany(courses);
     await Teacher.create(teachers);
     // await User.create(users, { validateBeforeSave: false });
     // await Review.create(reviews);
     console.log('Data successfully loaded!');
   } catch (err) {
     console.log(err);
+    mongoose.connection.close();
   }
   process.exit();
 };
@@ -50,7 +51,7 @@ const importData = async () => {
 // DELETE ALL DATA FROM DB
 const deleteData = async () => {
   try {
-    await Course.deleteMany();
+    // await Course.deleteMany();
     await Teacher.deleteMany();
     // await User.deleteMany();
     // await Review.deleteMany();

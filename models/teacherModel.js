@@ -13,7 +13,7 @@ const teacherSchema = new mongoose.Schema(
     },
     difficultyAverage: {
       type: Number,
-      default: 3,
+      default: -1,
     },
     ratingsQuantity: {
       type: Number,

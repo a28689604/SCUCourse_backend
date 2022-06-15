@@ -23,6 +23,9 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
     path: 'courses',
     populate: {
       path: 'reviews',
+      populate: {
+        path: 'votes',
+      },
     },
   });
   const doc = await query;

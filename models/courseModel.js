@@ -9,19 +9,19 @@ const courseSchema = new mongoose.Schema(
     },
     department: {
       type: String,
-      required: [true, 'A course must have a name'],
+      required: [true, 'A course must have a department'],
     },
     syear: {
       type: String,
-      required: [true, 'A course must have a name'],
+      required: [true, 'A course must have a syear'],
     },
     smester: {
       type: String,
-      required: [true, 'A course must have a name'],
+      required: [true, 'A course must have a smester'],
     },
     teacher: {
       type: String,
-      required: [true, 'A course must have a name'],
+      required: [true, 'A course must have a teacher'],
     },
     studentNumber: { type: Number, default: -1 },
     finalStudentNumber: { type: Number, default: -1 },
@@ -36,6 +36,9 @@ const courseSchema = new mongoose.Schema(
     ninety: { type: Number, default: -1 },
     ninetyFive: { type: Number, default: -1 },
     scoreAverage: { type: Number, default: -1 },
+    teacherIdString: {
+      type: String,
+    },
     teacherId: {
       type: mongoose.Schema.ObjectId,
       ref: 'Teacher',

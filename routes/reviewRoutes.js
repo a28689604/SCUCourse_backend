@@ -6,8 +6,6 @@ const router = express.Router({ mergeParams: true });
 
 router.route('/').get(reviewController.getAllReivews);
 
-router.route('/:id').get(reviewController.getReview);
-
 router
   .route('/')
   .post(
@@ -16,17 +14,26 @@ router
     reviewController.createReview
   );
 
+router.route('/:id').get(reviewController.getReview);
 // IMPORTANT need to check is owner or not
 router
   .route('/:id')
-  .patch(authController.protect, reviewController.updateReview)
-  .delete(authController.protect, reviewController.deleteReview);
+  .patch(
+    authController.protect,
+    reviewController.isOwner,
+    reviewController.updateReview
+  )
+  .delete(
+    authController.protect,
+    reviewController.isOwner,
+    reviewController.deleteReview
+  );
 
-// router
-//   .route('/:id/upvote')
-//   .patch(reviewController.checkIsVotedOrNot, reviewController.upvoteReview);
-// router
-//   .route('/:id/downvote')
-//   .patch(reviewController.checkIsVotedOrNot, reviewController.downvoteReview);
+router
+  .route('/:id/upvote/:condition')
+  .patch(authController.protect, reviewController.upVoteReview);
+router
+  .route('/:id/downvote/:condition')
+  .patch(authController.protect, reviewController.downVoteReview);
 
 module.exports = router;

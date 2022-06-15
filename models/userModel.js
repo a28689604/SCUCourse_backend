@@ -43,8 +43,10 @@ const userSchema = new mongoose.Schema({
       message: 'Passwords are not the same!',
     },
   },
+  active: { type: Boolean, default: false },
   passwordChangedAt: Date,
   passwordResetToken: String,
+  passwordSetTokenForEmail: String,
   passwordResetExpires: Date,
 });
 
@@ -94,7 +96,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   return false;
 };
 
-userSchema.methods.createPasswordRestToken = function () {
+userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
 
   this.passwordResetToken = crypto
