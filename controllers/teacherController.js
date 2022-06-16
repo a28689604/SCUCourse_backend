@@ -19,7 +19,7 @@ exports.updateTeacher = factory.updateOne(Teacher);
 exports.deleteTeacher = factory.deleteOne(Teacher);
 
 exports.getTeacher = catchAsync(async (req, res, next) => {
-  const query = Teacher.find({ teacherName: req.params.id }).populate({
+  const doc = await Teacher.findOne({ teacherName: req.params.id }).populate({
     path: 'courses',
     populate: {
       path: 'reviews',
@@ -28,10 +28,9 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
       },
     },
   });
-  const doc = await query;
 
   if (!doc) {
-    return next(new AppError('No doc found with that ID', 404));
+    return next(new AppError('查無教授。', 404));
   }
 
   res.status(200).json({

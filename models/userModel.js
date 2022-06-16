@@ -70,12 +70,6 @@ userSchema.pre('save', function (next) {
   next();
 });
 
-userSchema.pre(/^find/, function (next) {
-  // this keyword point to the current user
-  this.find({ active: { $ne: false } });
-  next();
-});
-
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
@@ -106,7 +100,7 @@ userSchema.methods.createPasswordResetToken = function () {
 
   // console.log({ resetToken }, this.passwordResetToken);
 
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  this.passwordResetExpires = Date.now() + 30 * 60 * 1000;
 
   return resetToken;
 };

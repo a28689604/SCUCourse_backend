@@ -44,7 +44,7 @@ const limiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour!',
 });
-app.use('/api', limiter);
+// app.use('/api', limiter);
 
 // Body parser, reading data from the body into req.body
 app.use(
@@ -88,6 +88,17 @@ app.use((req, res, next) => {
   // console.log(req.cookies);
   next();
 });
+
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requseted-With, Content-Type, Accept, Authorization'
+//   );
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+
+//   next();
+// });
 
 // 2) ROUTE HANDLERS
 
