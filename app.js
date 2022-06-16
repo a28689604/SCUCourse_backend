@@ -56,18 +56,18 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
 
 // Data sanitization against NoSQL query unjection
-app.use(
-  mongoSanitize({
-    whitelist: [
-      'duration',
-      'ratingAverage',
-      'ratingsQuantity',
-      'maxGroupSize',
-      'difficulty',
-      'price',
-    ],
-  })
-);
+// app.use(
+//   mongoSanitize({
+//     whitelist: [
+//       'duration',
+//       'ratingAverage',
+//       'ratingsQuantity',
+//       'maxGroupSize',
+//       'difficulty',
+//       'price',
+//     ],
+//   })
+// );
 
 app.use(compression());
 

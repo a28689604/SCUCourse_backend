@@ -5,6 +5,12 @@ const factory = require('./handlerFactory');
 const Course = require('../models/courseModel');
 const Vote = require('../models/voteModel');
 
+exports.aliasLatestReviews = (req, res, next) => {
+  req.query.limit = '10';
+  req.query.sort = 'createAt';
+  next();
+};
+
 exports.setTeacherUserIds = catchAsync(async (req, res, next) => {
   // Allow nested routes
 
@@ -18,7 +24,20 @@ exports.setTeacherUserIds = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.getAllReivews = factory.getAll(Review);
+exports.getAllReviews = catchAsync(async (req, res) => {
+  const doc = await Review.find().populate({
+    path: 'teacher',
+  });
+
+  // SEND RESPONSE
+  res.status(200).json({
+    status: 'success',
+    results: doc.length,
+    data: {
+      data: doc,
+    },
+  });
+});
 exports.getReview = factory.getOne(Review);
 exports.createReview = factory.createOne(Review);
 exports.updateReview = factory.updateOne(Review);

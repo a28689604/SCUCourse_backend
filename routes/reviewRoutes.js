@@ -4,7 +4,11 @@ const authController = require('../controllers/authController');
 
 const router = express.Router({ mergeParams: true });
 
-router.route('/').get(reviewController.getAllReivews);
+router
+  .route('/latest-reviews')
+  .get(reviewController.aliasLatestReviews, reviewController.getAllReviews);
+
+router.route('/').get(reviewController.getAllReviews);
 
 router
   .route('/')

@@ -58,20 +58,16 @@ const reviewSchema = new mongoose.Schema(
 
 reviewSchema.index({ teacher: 1, user: 1 }, { unique: true });
 
-// reviewSchema.pre(/^find/, function (next) {
-//   // this.populate({
-//   //   path: 'course',
-//   //   select: 'name',
-//   // }).populate({
-//   //   path: 'user',
-//   //   select: 'name photo',
-//   // });
-//   this.populate({
-//     path: 'course',
-//     // select: 'name photo',
-//   }).populate({ path: 'teacher' });
-//   next();
-// });
+reviewSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'course',
+    select: 'courseName syear smester',
+  }).populate({
+    path: 'teacher',
+    select: 'teacherName',
+  });
+  next();
+});
 
 reviewSchema.virtual('votes', {
   ref: 'Vote',
