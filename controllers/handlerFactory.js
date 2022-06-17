@@ -95,7 +95,7 @@ exports.isOwner = (Model, idField) =>
   catchAsync(async (req, _, next) => {
     const doc = await Model.findById(req.params.id).exec();
 
-    if (req.user.id !== doc[idField].id) {
+    if (req.user.id !== doc[idField].toString()) {
       next(new AppError('Unauthorized', 403));
       return;
     }

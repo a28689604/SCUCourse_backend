@@ -61,7 +61,7 @@ reviewSchema.index({ teacher: 1, user: 1 }, { unique: true });
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'course',
-    select: 'courseName syear smester',
+    select: 'courseName syear smester department',
   }).populate({
     path: 'teacher',
     select: 'teacherName',
@@ -111,6 +111,7 @@ reviewSchema.statics.difficultyAverageAndRecommend = async function (
 
 reviewSchema.post('save', function () {
   this.constructor.difficultyAverageAndRecommend(this.teacher);
+  console.log(this, this.teacher);
 });
 
 // IMPORTANT findByIdAndUpdate & Delete is only the short hand of findOneAnd
@@ -124,7 +125,8 @@ reviewSchema.post(/^findOneAnd/, async function () {
   // IMPORTANT await this.findOne(); does not work here, query has already executed.
   // IMPORTANT using this.r to pass the data from the pre-middleware to the post middleware, and here, we retrived the review document form the this variable
 
-  await this.r.constructor.difficultyAverageAndRecommend(this.r.teacher);
+  const teacherObjectId = mongoose.Types.ObjectId(this.r.teacher.id);
+  await this.r.constructor.difficultyAverageAndRecommend(teacherObjectId);
 
   // IMPORTANT code below actually work
   // const test = await this.findOne();
