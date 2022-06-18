@@ -111,7 +111,6 @@ reviewSchema.statics.difficultyAverageAndRecommend = async function (
 
 reviewSchema.post('save', function () {
   this.constructor.difficultyAverageAndRecommend(this.teacher);
-  console.log(this, this.teacher);
 });
 
 // IMPORTANT findByIdAndUpdate & Delete is only the short hand of findOneAnd

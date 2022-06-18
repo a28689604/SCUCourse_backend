@@ -23,17 +23,9 @@ app.enable('trust porxy');
 
 // 1) GLOBAL MIDDLEWARES
 // Implement CORS
-// app.use(cors());
+app.use(cors());
 
-app.use(
-  cors({
-    origin: '*',
-    credentials: true,
-    exposedHeaders: ['set-cookie'],
-  })
-);
-
-// app.options('*', cors());
+app.options('*', cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));

@@ -46,7 +46,7 @@ exports.checkUserActive = catchAsync(async (req, res, next) => {
   });
 
   if (newUser.active) {
-    return next(new AppError('此信箱已被啟用', 400));
+    return next(new AppError('此信箱已被啟用', 409));
   }
   next();
 });
@@ -62,6 +62,24 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 exports.emailSignup = catchAsync(async (req, res, next) => {
+  const userDoc = await User.findOne({
+    email: req.body.email,
+  });
+
+  if (userDoc && !userDoc.active) {
+    return res.status(202).json({
+      status: 'success',
+      message: '此信箱已被註冊但未被啟用，是否重新發送確認信?',
+    });
+  }
+
+  if (userDoc && userDoc.active) {
+    return res.status(401).json({
+      status: 'success',
+      message: '此信箱已被註冊並啟用!',
+    });
+  }
+
   const newUser = await User.create({
     email: req.body.email,
     password: process.env.USER_DEFAULT_PASSWORD,
@@ -73,11 +91,8 @@ exports.emailSignup = catchAsync(async (req, res, next) => {
   await newUser.save({ validateBeforeSave: false });
 
   // 3) Send it to user's email
-
   try {
-    const resetURL = `${req.protocol}://${req.get(
-      'host'
-    )}/users/SetPassword/${resetToken}`;
+    const resetURL = `http://127.0.0.1:3000/setPassword/${resetToken}`;
     await new Email(newUser, resetURL).sendPasswordReset();
 
     res.status(200).json({
@@ -222,9 +237,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 3) Send it to user's email
 
   try {
-    const resetURL = `${req.protocol}://${req.get(
-      'host'
-    )}/users/resetPassword/${resetToken}`;
+    const resetURL = `http://127.0.0.1:3000/setPassword/${resetToken}`;
     await new Email(user, resetURL).sendPasswordReset();
 
     res.status(200).json({
