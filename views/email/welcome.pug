@@ -4,7 +4,6 @@ block content
   p Hi #{firstName},
   p 歡迎使用東吳課程評價!
   p 點擊以下按鈕以設定密碼及啟用您的帳號。
-  p 如下方按鈕失效，請使用此連結: #{url}
   table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
     tbody
       tr
@@ -14,3 +13,5 @@ block content
               tr
                 td
                   a(href=`${url}`, target='_blank') 設定密碼
+  p 如上方按鈕失效，請使用此連結:
+  p #{url}
