@@ -92,7 +92,7 @@ exports.emailSignup = catchAsync(async (req, res, next) => {
 
   // 3) Send it to user's email
   try {
-    const resetURL = `http://127.0.0.1:3000/setPassword/${resetToken}`;
+    const resetURL = `${process.env.FRONTEND_URL}/${resetToken}`;
     await new Email(newUser, resetURL).sendPasswordReset();
 
     res.status(200).json({
@@ -237,7 +237,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 3) Send it to user's email
 
   try {
-    const resetURL = `http://127.0.0.1:3000/setPassword/${resetToken}`;
+    const resetURL = `${process.env.FRONTEND_URL}/setPassword/${resetToken}`;
     await new Email(user, resetURL).sendPasswordReset();
 
     res.status(200).json({
