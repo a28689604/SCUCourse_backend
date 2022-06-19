@@ -93,7 +93,7 @@ exports.emailSignup = catchAsync(async (req, res, next) => {
   // 3) Send it to user's email
   try {
     const resetURL = `${process.env.FRONTEND_URL}/${resetToken}`;
-    await new Email(newUser, resetURL).sendPasswordReset();
+    await new Email(newUser, resetURL).sendWelcome();
 
     res.status(200).json({
       status: 'success',
