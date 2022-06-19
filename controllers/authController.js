@@ -238,7 +238,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   try {
     const resetURL = `${process.env.FRONTEND_URL}/setPassword/${resetToken}`;
-    await new Email(user, resetURL).sendPasswordReset();
+    await new Email(user, resetURL).sendWelcome();
 
     res.status(200).json({
       status: 'success',
