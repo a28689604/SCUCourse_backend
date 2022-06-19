@@ -7,7 +7,7 @@ const emailValidators = [
   { validator: validator.isEmail, message: '請輸入有效的電子信箱' },
   {
     validator: function (el) {
-      return el.includes('@scu.edu.tw');
+      return el.includes('@scu.edu.tw') || el.includes('@gm.scu.edu.tw');
     },
     message: '只允許東吳校內信箱',
   },
