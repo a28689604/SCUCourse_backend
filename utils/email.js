@@ -56,7 +56,7 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send('welcome', '歡迎使用東吳課程評價');
+    await this.send('welcome', '東吳課程評價密碼設定信(30分鐘後失效)');
   }
 
   async sendPasswordReset() {
