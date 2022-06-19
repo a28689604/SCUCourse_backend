@@ -4,6 +4,7 @@ const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const Course = require('../models/courseModel');
 const Vote = require('../models/voteModel');
+const APIFeatures = require('../utils/apiFeatures');
 
 exports.aliasLatestReviews = (req, res, next) => {
   req.query.limit = '10';
@@ -25,9 +26,18 @@ exports.setTeacherUserIds = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllReviews = catchAsync(async (req, res) => {
-  const doc = await Review.find().populate({
-    path: 'teacher',
-  });
+  // EXECUTE QUERY
+  const features = new APIFeatures(
+    Review.find().populate({
+      path: 'teacher',
+    }),
+    req.query
+  )
+    .paginate()
+    .sort();
+  // const doc = await features.query.explain();
+
+  const doc = await features.query;
 
   // SEND RESPONSE
   res.status(200).json({
