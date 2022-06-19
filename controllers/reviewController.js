@@ -7,7 +7,7 @@ const Vote = require('../models/voteModel');
 
 exports.aliasLatestReviews = (req, res, next) => {
   req.query.limit = '10';
-  req.query.sort = 'createAt';
+  req.query.sort = '-createAt';
   next();
 };
 
