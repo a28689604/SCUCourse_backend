@@ -41,8 +41,9 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.checkUserActive = catchAsync(async (req, res, next) => {
+  const userCode = req.body.email.split('@')[0];
   const newUser = await User.findOne({
-    email: req.body.email,
+    userCode: userCode,
   });
 
   if (newUser.active) {
@@ -54,6 +55,7 @@ exports.checkUserActive = catchAsync(async (req, res, next) => {
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     email: req.body.email,
+    userCode: req.body.email.split('@')[0],
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
   });
@@ -63,25 +65,23 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.emailSignup = catchAsync(async (req, res, next) => {
   const userDoc = await User.findOne({
-    email: req.body.email,
+    userCode: req.body.email.split('@')[0],
   });
 
   if (userDoc && !userDoc.active) {
     return res.status(202).json({
       status: 'success',
-      message: '此信箱已被註冊但未被啟用，是否重新發送確認信?',
+      message: '此學號已被註冊但未被啟用，是否重新發送確認信?',
     });
   }
 
   if (userDoc && userDoc.active) {
-    return res.status(401).json({
-      status: 'success',
-      message: '此信箱已被註冊並啟用!',
-    });
+    return next(new AppError('此學號已被註冊並啟用!', 401));
   }
 
   const newUser = await User.create({
     email: req.body.email,
+    userCode: req.body.email.split('@')[0],
     password: process.env.USER_DEFAULT_PASSWORD,
     passwordConfirm: process.env.USER_DEFAULT_PASSWORD,
   });

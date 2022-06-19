@@ -21,6 +21,12 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: emailValidators,
   },
+  userCode: {
+    type: String,
+    required: [true, 'Please provide your userCode!'],
+    unique: true,
+    lowercase: true,
+  },
   role: {
     type: String,
     enum: ['user', 'admin'],
