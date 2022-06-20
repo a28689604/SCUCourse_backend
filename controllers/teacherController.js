@@ -40,3 +40,19 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.searchTeacher = catchAsync(async (req, res, next) => {
+  const doc = await Teacher.find({
+    teacherName: { $regex: req.params.id, $options: 'i' },
+  }).sort({ ratingsQuantity: -1 });
+
+  if (doc.length === 0) {
+    return next(new AppError('查無教授。', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: doc,
+    },
+  });
+});

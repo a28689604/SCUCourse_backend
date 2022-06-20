@@ -17,11 +17,10 @@ router
     reviewController.setTeacherUserIds,
     reviewController.createReview
   );
-
-router.route('/:id').get(reviewController.getReview);
 // IMPORTANT need to check is owner or not
 router
   .route('/:id')
+  .get(reviewController.getReview)
   .patch(
     authController.protect,
     reviewController.isOwner,

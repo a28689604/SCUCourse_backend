@@ -19,6 +19,8 @@ router
     teacherController.createTeacher
   );
 
+router.route('/find/:id').get(teacherController.searchTeacher);
+
 router
   .route('/:id')
   .get(teacherController.getTeacher)
