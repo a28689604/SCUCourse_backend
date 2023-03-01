@@ -21,6 +21,12 @@ exports.deleteTeacher = factory.deleteOne(Teacher);
 exports.getTeacher = catchAsync(async (req, res, next) => {
   const doc = await Teacher.findOne({ teacherName: req.params.id }).populate({
     path: 'courses',
+    options: {
+      sort: {
+        syear: -1,
+        smester: -1,
+      },
+    },
     populate: {
       path: 'reviews',
       populate: {
