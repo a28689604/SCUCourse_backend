@@ -49,6 +49,10 @@ const courseSchema = new mongoose.Schema(
       required: [true, 'A course must have a name'],
       trim: true,
     },
+    scoreUploadBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
   },
   // Make sure that when we have a virtual property, it will also show up whenever there is an output
   {
